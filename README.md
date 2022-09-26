@@ -1,4 +1,4 @@
-# Hardhat Smartcontract Lottery (Raffle) FCC
+# Hardhat Smartcontract Lottery 
 
 *This repo has been updated to work with Goerli over Rinkeby.*
 
