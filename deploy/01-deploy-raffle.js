@@ -14,6 +14,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const chainId = network.config.chainId
     let vrfCoordinatorV2Address, subscriptionId, vrfCoordinatorV2Mock
 
+    // console.log(chainId) for testing
+
     if (chainId == 31337) {
         // create VRFV2 Subscription
         vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
