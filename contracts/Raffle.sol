@@ -33,12 +33,22 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     uint32 private constant NUM_WORDS = 1;
 
     // Lottery Variables
+    address public owner;
+    address public operator;
     uint256 private immutable i_interval;
     uint256 private immutable i_entranceFee;
     uint256 private s_lastTimeStamp;
     address private s_recentWinner;
     address payable[] private s_players;
     RaffleState private s_raffleState;
+
+    uint256[] public ticketId;
+    uint256[] public ticketNum;
+    uint256 public ticketPrice;
+
+    mapping(uint256 => address) public lotHis;
+    mapping(uint256 => address) public winHis;
+    mapping(address => uint256[]) public ticketsBought;
 
     /* Events */
     event RequestedRaffleWinner(uint256 indexed requestId);
@@ -62,6 +72,33 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         s_raffleState = RaffleState.OPEN;
         s_lastTimeStamp = block.timestamp;
         i_callbackGasLimit = callbackGasLimit;
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "You are not the owner");
+        _;
+    }
+
+    function setTicketPrice(uint256 setPrice) public onlyOwner {
+        ticketPrice = setPrice;
+    }
+
+    function buyTicket() public payable {
+        require(msg.value == ticketPrice, "Please input correct ticket price");
+        uint256 ticketNumber = block.timestamp;
+        ticketId.push(ticketNumber);
+        s_players.push(payable(msg.sender));
+        ticketsBought[msg.sender].push(ticketNumber);
+    }
+
+    function potBalance() public view returns (uint256) {
+        return address(this).balance; // address(this).balance returns balance of the contract
+    }
+
+    function getCurrentTime() public view returns (uint256) {
+        // To get block.timestamp
+        return block.timestamp;
     }
 
     function enterRaffle() public payable {
@@ -88,6 +125,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
      * 3. The contract has ETH.
      * 4. Implicity, your subscription is funded with LINK.
      */
+
     function checkUpkeep(
         bytes memory /* checkData */
     )
