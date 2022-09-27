@@ -21,7 +21,7 @@ This is a section of the Javascript Blockchain/Smart Contract FreeCodeCamp Cours
   - [Verify on etherscan](#verify-on-etherscan)
     - [Typescript differences](#typescript-differences)
 - [Linting](#linting)
-- [Thank you!](#thank-you)
+
 
 This project is apart of the Hardhat FreeCodeCamp video.
 
