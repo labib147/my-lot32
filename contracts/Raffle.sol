@@ -85,6 +85,9 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     }
 
     function buyTicket() public payable {
+        if (s_raffleState != RaffleState.OPEN) {
+            revert Raffle__RaffleNotOpen();
+        }
         require(msg.value == ticketPrice, "Please input correct ticket price");
         uint256 ticketNumber = block.timestamp;
         ticketId.push(ticketNumber);
