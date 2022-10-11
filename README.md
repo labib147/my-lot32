@@ -1,4 +1,4 @@
-# Hardhat Smartcontract Lottery 
+# Smartcontract Lottery 
 
 *This repo has been updated to work with Goerli over Rinkeby.*
 
